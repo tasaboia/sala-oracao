@@ -204,12 +204,6 @@
       color: var(--muted);
     }
 
-    .intro-card p {
-      color: var(--muted);
-      font-size: 0.92rem;
-      line-height: 1.55;
-    }
-
     .calendar-top {
       display: flex;
       align-items: center;
@@ -703,7 +697,7 @@
     <div class="gradient"></div>
     <div class="hero-content">
       <h1>Sala de Oração</h1>
-      <p class="subtitle">Escolha um dia disponível entre 30 de março e 8 de maio e selecione um horário. Quartas-feiras ficam bloqueadas.</p>
+      <p class="subtitle">Escolhe um dia disponível entre 30 de março e 8 de maio e seleciona um horário, exceto quartas-feiras de tarde.</p>
       <div class="month-badge" id="monthBadge">Abril 2026</div>
     </div>
   </header>
@@ -711,19 +705,20 @@
   <main>
     <section class="intro-card">
       <p>
-        Cada horário suporta até <strong>5 pessoas</strong>. A pessoa escolhe <strong>o dia específico</strong> em que vai ficar, em vez de um compromisso semanal fixo. Só ficam visíveis e clicáveis as datas entre <strong>30 de março</strong> e <strong>8 de maio</strong>. Os nomes podem ficar visíveis para facilitar a gestão da equipa.
+        Cada horário suporta até <strong>3 pessoas</strong>, visível para todos.<br><br>
+        Caso exista alguma alteração, por favor avisa com antecedência as demais pessoas inscritas no turno para garantir a presença de pelo menos 1 líder no turno.
       </p>
 
       <div class="leader-links">
         <a class="leader-link-card" href="https://chat.whatsapp.com/K7pYWrObG2q5gLfQt5Z9dZ" target="_blank" rel="noopener noreferrer">
           <span class="leader-link-label">Grupo dos líderes</span>
-          <span class="leader-link-title">A presencial VDS'26 | Líderes Sala de Oração (presencial)</span>
+          <span class="leader-link-title">VDS'26 | Líderes Sala de Oração (presencial)</span>
           <span class="leader-link-subtitle">Entrar no grupo dos líderes da sala presencial</span>
         </a>
 
         <a class="leader-link-card" href="https://chat.whatsapp.com/Kt4z4eYaliDKwJpKHFOd0R" target="_blank" rel="noopener noreferrer">
           <span class="leader-link-label">Grupo dos líderes</span>
-          <span class="leader-link-title">B on-line VDS'26 | Líderes Relógio de Oração (on-line)</span>
+          <span class="leader-link-title">VDS'26 | Líderes Relógio de Oração (on-line)</span>
           <span class="leader-link-subtitle">Entrar no grupo dos líderes do relógio de oração on-line</span>
         </a>
       </div>
@@ -742,8 +737,9 @@
 
       <div class="legend">
         <div class="legend-item"><span class="legend-dot accent"></span> dia selecionado</div>
-        <div class="legend-item"><span class="legend-dot blocked"></span> quarta-feira bloqueada</div>
         <div class="legend-item"><span class="legend-dot blocked"></span> fora do período</div>
+      </div>
+        <div class="legend-item"><span class="legend-dot blocked"></span> quarta-feira bloqueada</div>
       </div>
     </section>
 
@@ -770,9 +766,9 @@
   </div>
 
   <script>
-    const MAX_PEOPLE_PER_SLOT = 5;
-    const MIN_AVAILABLE_DATE = new Date(2026, 2, 30); // 30 de março de 2026
-    const MAX_AVAILABLE_DATE = new Date(2026, 4, 8);  // 8 de maio de 2026
+    const MAX_PEOPLE_PER_SLOT = 3;
+    const MIN_AVAILABLE_DATE = new Date(2026, 2, 30);
+    const MAX_AVAILABLE_DATE = new Date(2026, 4, 8);
 
     const monthNames = [
       'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
@@ -785,9 +781,9 @@
       { period: 'Manhã', time: '06:00 às 07:00', key: '06:00-07:00' },
       { period: 'Manhã', time: '07:00 às 08:00', key: '07:00-08:00' },
       { period: 'Manhã', time: '08:00 às 09:00', key: '08:00-09:00' },
-      { period: 'Noite', time: '18:00 às 19:00', key: '18:00-19:00' },
-      { period: 'Noite', time: '19:00 às 20:00', key: '19:00-20:00' },
-      { period: 'Noite', time: '20:00 às 21:00', key: '20:00-21:00' }
+      { period: 'Tarde', time: '18:00 às 19:00', key: '18:00-19:00' },
+      { period: 'Tarde', time: '19:00 às 20:00', key: '19:00-20:00' },
+      { period: 'Tarde', time: '20:00 às 21:00', key: '20:00-21:00' }
     ];
 
         const STORAGE_KEY = 'vds26-sala-oracao-registrations';
@@ -883,9 +879,8 @@
       for (let day = 1; day <= lastDay.getDate(); day++) {
         const date = new Date(currentYear, currentMonth, day);
         const dateKey = formatDateKey(date);
-        const isWednesdayBlocked = date.getDay() === 3;
         const isOutOfRange = !isWithinAvailableRange(date);
-        const isBlocked = isWednesdayBlocked || isOutOfRange;
+        const isBlocked = isOutOfRange;
         const totalForDay = getCountForDate(dateKey);
 
         const button = document.createElement('button');
@@ -896,7 +891,7 @@
 
         button.innerHTML = `
           <div class="day-number">${day}</div>
-          <div class="day-meta">${isOutOfRange ? 'Indisp.' : isWednesdayBlocked ? 'Bloq.' : totalForDay > 0 ? `${totalForDay} inscr.` : 'Livre'}</div>
+          <div class="day-meta">${isOutOfRange ? 'Indisp.' : totalForDay > 0 ? `${totalForDay} inscr.` : 'Livre'}</div>
         `;
 
         if (!isBlocked) {
@@ -983,14 +978,18 @@
     }
 
     function buildSlotItem(dateKey, slot) {
+      const [year, month, day] = dateKey.split('-').map(Number);
+      const currentDate = new Date(year, month - 1, day);
+      const isWednesdayAfternoonSlot = currentDate.getDay() === 3 && slot.period === 'Tarde';
       const registrationKey = `${dateKey}|${slot.key}`;
       const names = registrations[registrationKey] || [];
       const isFull = names.length >= MAX_PEOPLE_PER_SLOT;
+      const isBlockedForThisDate = isWednesdayAfternoonSlot;
       const available = MAX_PEOPLE_PER_SLOT - names.length;
 
       const wrapper = document.createElement('div');
       wrapper.className = 'slot-item';
-      if (isFull) wrapper.classList.add('top-disabled');
+      if (isFull || isBlockedForThisDate) wrapper.classList.add('top-disabled');
 
       const namesList = names.length
         ? `<ul class="assigned-list">${names.map(name => `
@@ -1001,7 +1000,7 @@
               </div>
             </li>
           `).join('')}</ul>`
-        : `<p class="empty-state">Ainda não há ninguém inscrito neste horário.</p>`;
+        : `<p class="empty-state">${isBlockedForThisDate ? 'Este horário não fica disponível nas quartas-feiras de tarde.' : 'Ainda não há ninguém inscrito neste horário.'}</p>`;
 
       wrapper.innerHTML = `
         <div class="slot-head">
@@ -1009,14 +1008,14 @@
             <div class="slot-time">${slot.time}</div>
             <div class="slot-capacity">${names.length}/${MAX_PEOPLE_PER_SLOT} pessoas inscritas</div>
           </div>
-          <div class="slot-status ${isFull ? 'full' : 'available'}">
-            ${isFull ? 'Completo' : `${available} vaga${available > 1 ? 's' : ''}`}
+          <div class="slot-status ${isBlockedForThisDate || isFull ? 'full' : 'available'}">
+            ${isBlockedForThisDate ? 'Indisponível' : isFull ? 'Completo' : `${available} vaga${available > 1 ? 's' : ''}`}
           </div>
         </div>
         ${namesList}
         <div class="slot-actions">
-          <button class="action-btn primary" ${isFull ? 'disabled' : ''} type="button">
-            ${isFull ? 'Sem vagas' : 'Inscrever neste horário'}
+          <button class="action-btn primary" ${isFull || isBlockedForThisDate ? 'disabled' : ''} type="button">
+            ${isBlockedForThisDate ? 'Indisponível na quarta à tarde' : isFull ? 'Sem vagas' : 'Inscrever neste horário'}
           </button>
           
         </div>
@@ -1024,7 +1023,7 @@
 
       const primaryBtn = wrapper.querySelector('.action-btn.primary');
       primaryBtn.addEventListener('click', () => {
-        if (!isFull) {
+        if (!isFull && !isBlockedForThisDate) {
           openNameModal(registrationKey, `${slot.time} em ${dateKey}`);
         }
       });
@@ -1042,7 +1041,7 @@
     function renderSlotsForDate(date) {
       const dateKey = formatDateKey(date);
       selectedDateTitle.textContent = getSelectedDateLabel(date);
-      selectedDateSubtitle.textContent = 'Escolha um dos horários abaixo. Cada horário aceita até 5 pessoas.';
+      selectedDateSubtitle.textContent = 'Escolha um dos horários abaixo. Cada horário aceita até 3 pessoas. Nas quartas-feiras, só os horários da manhã ficam disponíveis.';
       slotSections.innerHTML = '';
 
       const grouped = dailySlots.reduce((acc, slot) => {
