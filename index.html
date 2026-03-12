@@ -546,7 +546,7 @@
     <section class="slot-card" id="slotCard" style="display: none;">
       <div class="selected-turn">
         <h3 id="selectedDateTitle">Escolhe o dia da semana</h3>
-        <p id="selectedDateSubtitle">A inscrição fica fixa nesse mesmo horário todas as semanas. Cada horário aceita até 3 pessoas.</p>
+        <p id="selectedDateSubtitle"> Cada horário aceita até 3 pessoas.</p>
       </div>
 
       <div id="slotSections"></div>
@@ -572,7 +572,7 @@
     const weeklyTurns = [
       { key: 'segunda', label: 'Segunda-feira', note: 'manhã e tarde disponíveis' },
       { key: 'terca', label: 'Terça-feira', note: 'manhã e tarde disponíveis' },
-      { key: 'quarta', label: 'Quarta-feira', note: 'só manhã disponível' },
+      { key: 'quarta', label: 'Quarta-feira', note: 'todos os horários disponíveis, exceto 20:00 às 21:00' },
       { key: 'quinta', label: 'Quinta-feira', note: 'manhã e tarde disponíveis' },
       { key: 'sexta', label: 'Sexta-feira', note: 'manhã e tarde disponíveis' },
       // { key: 'sabado', label: 'Sábado', note: 'manhã e tarde disponíveis' },
@@ -705,11 +705,11 @@
     }
 
     function buildSlotItem(turnKey, turnLabel, slot) {
-      const isWednesdayAfternoonSlot = turnKey === 'quarta' && slot.period === 'Tarde';
+      const isWednesdayBlockedSlot = turnKey === 'quarta' && slot.key === '20:00-21:00';
       const registrationKey = `${turnKey}|${slot.key}`;
       const names = registrations[registrationKey] || [];
       const isFull = names.length >= MAX_PEOPLE_PER_SLOT;
-      const isBlockedForThisTurn = isWednesdayAfternoonSlot;
+      const isBlockedForThisTurn = isWednesdayBlockedSlot;
       const available = MAX_PEOPLE_PER_SLOT - names.length;
 
       const wrapper = document.createElement('div');
@@ -725,7 +725,7 @@
               </div>
             </li>
           `).join('')}</ul>`
-        : `<p class="empty-state">${isBlockedForThisTurn ? 'Este horário não fica disponível nas quartas-feiras de tarde.' : 'Ainda não há ninguém inscrito neste horário.'}</p>`;
+        : `<p class="empty-state">${isBlockedForThisTurn ? 'Este horário não fica disponível nas quartas-feiras às 20:00.' : 'Ainda não há ninguém inscrito neste horário.'}</p>`;
 
       wrapper.innerHTML = `
         <div class="slot-head">
@@ -740,7 +740,7 @@
         ${namesList}
         <div class="slot-actions">
           <button class="action-btn primary" ${isFull || isBlockedForThisTurn ? 'disabled' : ''} type="button">
-            ${isBlockedForThisTurn ? 'Indisponível na quarta à tarde' : 'Inscrever neste horário'}
+            ${isBlockedForThisTurn ? 'Indisponível na quarta às 20:00' : 'Inscrever neste horário'}
           </button>
         </div>
       `;
@@ -762,7 +762,7 @@
     }
 
     function renderSlotsForTurn(turn) {
-      selectedDateTitle.textContent = ` ${turn.label}`;
+      selectedDateTitle.textContent = `${turn.label}`;
       selectedDateSubtitle.textContent = 'Cada horário aceita até 3 pessoas.';
       slotSections.innerHTML = '';
 
