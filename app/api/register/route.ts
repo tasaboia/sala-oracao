@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
       [slotKey]
     );
 
-    if (slotResult.rowCount === 0) {
+    if ((slotResult.rowCount ?? 0) === 0) {
       await client.query("ROLLBACK");
       return NextResponse.json(
         { error: "Horário não encontrado." },
@@ -68,7 +68,7 @@ export async function POST(req: NextRequest) {
       [slot.id, personName]
     );
 
-    if (duplicateResult.rowCount > 0) {
+    if ((duplicateResult.rowCount ?? 0) > 0) {
       await client.query("ROLLBACK");
       return NextResponse.json(
         { error: "Este nome já está inscrito neste horário." },
