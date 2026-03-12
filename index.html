@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Sala de Oração</title>
+  <title>Líderes relógio de oração | Líderes sala de oração</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -20,7 +20,6 @@
       --danger: #f6bdc0;
       --font: 'Montserrat', sans-serif;
       --radius: 18px;
-      --radius-sm: 14px;
       --shadow: 0 14px 32px rgba(0, 0, 0, 0.28);
       --tap: 48px;
     }
@@ -30,10 +29,6 @@
       margin: 0;
       padding: 0;
       -webkit-tap-highlight-color: transparent;
-    }
-
-    html {
-      scroll-behavior: smooth;
     }
 
     body {
@@ -91,18 +86,10 @@
     }
 
     h1 {
-      font-size: 1.9rem;
+      font-size: 1.72rem;
       font-weight: 600;
-      line-height: 1.12;
+      line-height: 1.18;
       margin-bottom: 0.7rem;
-    }
-
-    .subtitle {
-      color: var(--muted);
-      font-size: 0.92rem;
-      line-height: 1.45;
-      max-width: 28rem;
-      margin: 0 auto 0.95rem;
     }
 
     .month-badge {
@@ -128,30 +115,19 @@
     }
 
     .intro-card,
-    .calendar-card,
+    .turn-card,
     .slot-card {
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
       backdrop-filter: blur(8px);
-    }
-
-    .intro-card,
-    .calendar-card,
-    .slot-card {
       padding: 0.95rem;
     }
 
     .intro-card,
-    .calendar-card {
+    .turn-card {
       margin-bottom: 0.9rem;
-    }
-
-    .intro-card p {
-      color: var(--muted);
-      font-size: 0.92rem;
-      line-height: 1.55;
     }
 
     .leader-links {
@@ -179,16 +155,6 @@
       outline: none;
     }
 
-    .leader-link-label {
-      display: block;
-      font-size: 0.78rem;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--accent);
-      font-weight: 700;
-      margin-bottom: 0.35rem;
-    }
-
     .leader-link-title {
       display: block;
       font-size: 0.95rem;
@@ -204,156 +170,70 @@
       color: var(--muted);
     }
 
-    .calendar-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 0.75rem;
-      margin-bottom: 0.9rem;
-      position: sticky;
-      top: 0;
-      z-index: 2;
-      padding-bottom: 0.25rem;
-      background: linear-gradient(to bottom, rgba(2,22,30,0.96), rgba(2,22,30,0.72), transparent);
-    }
-
-    .calendar-top h2 {
+    .turn-card h2,
+    .selected-turn h3 {
       font-size: 1rem;
       font-weight: 600;
-      line-height: 1.2;
+      margin-bottom: 0.3rem;
     }
 
-    .month-controls {
-      display: flex;
-      align-items: center;
-      gap: 0.45rem;
-      flex-shrink: 0;
-    }
-
-    .icon-btn {
-      width: var(--tap);
-      height: var(--tap);
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,0.04);
-      color: var(--text);
-      font-size: 1rem;
-      cursor: pointer;
-      font-family: inherit;
-    }
-
-    .calendar-grid {
-      display: grid;
-      grid-template-columns: repeat(7, minmax(0, 1fr));
-      gap: 0.34rem;
-    }
-
-    .weekday {
-      text-align: center;
+    .turn-card p,
+    .selected-turn p,
+    .empty-state {
       color: var(--muted);
-      font-size: 0.62rem;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      padding-bottom: 0.2rem;
+      font-size: 0.92rem;
+      line-height: 1.5;
     }
 
-    .day-cell {
+    .turn-grid {
+      display: grid;
+      gap: 0.7rem;
+      margin-top: 0.95rem;
+    }
+
+    .turn-button {
       width: 100%;
       border: 1px solid var(--border);
       background: rgba(255,255,255,0.03);
-      border-radius: 13px;
-      min-height: 60px;
-      padding: 0.35rem 0.18rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 0.24rem;
+      border-radius: 16px;
+      min-height: 72px;
+      padding: 0.9rem;
+      text-align: left;
+      color: var(--text);
+      font-family: inherit;
       cursor: pointer;
       transition: transform 0.16s ease, border-color 0.16s ease, background 0.16s ease;
-      font-family: inherit;
-      color: inherit;
     }
 
-    .day-cell:hover,
-    .day-cell:focus-visible {
+    .turn-button:hover,
+    .turn-button:focus-visible {
       transform: translateY(-1px);
       border-color: rgba(255,255,255,0.34);
       outline: none;
     }
 
-    .day-cell.empty {
-      visibility: hidden;
-      pointer-events: none;
-    }
-
-    .day-cell.blocked {
-      background: rgba(255,255,255,0.045);
-      opacity: 0.42;
-      cursor: not-allowed;
-    }
-
-    .day-cell.selected {
+    .turn-button.selected {
       border-color: var(--accent);
-      background: rgba(216, 195, 165, 0.15);
-      box-shadow: inset 0 0 0 1px rgba(216, 195, 165, 0.2);
+      background: rgba(216,195,165,0.14);
+      box-shadow: inset 0 0 0 1px rgba(216,195,165,0.2);
     }
 
-    .day-number {
-      font-size: 0.92rem;
-      font-weight: 700;
-      line-height: 1;
-    }
-
-    .day-meta {
-      font-size: 0.58rem;
-      color: var(--muted);
-      text-align: center;
-      line-height: 1.1;
-      word-break: break-word;
-    }
-
-    .legend {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.6rem 0.9rem;
-      margin-top: 0.9rem;
-      color: var(--muted);
-      font-size: 0.74rem;
-    }
-
-    .legend-item {
-      display: flex;
-      align-items: center;
-      gap: 0.42rem;
-    }
-
-    .legend-dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.2);
-      flex: 0 0 auto;
-    }
-
-    .legend-dot.accent { background: rgba(216,195,165,0.95); }
-    .legend-dot.blocked { background: rgba(255,255,255,0.18); }
-
-    .selected-date {
-      margin-bottom: 0.8rem;
-    }
-
-    .selected-date h3 {
+    .turn-day {
+      display: block;
       font-size: 1rem;
-      font-weight: 600;
-      line-height: 1.3;
-      margin-bottom: 0.28rem;
+      font-weight: 700;
+      margin-bottom: 0.2rem;
     }
 
-    .selected-date p {
+    .turn-note {
+      display: block;
+      font-size: 0.84rem;
       color: var(--muted);
-      font-size: 0.9rem;
-      line-height: 1.45;
+      line-height: 1.35;
+    }
+
+    .selected-turn {
+      margin-bottom: 0.9rem;
     }
 
     .period-title {
@@ -482,6 +362,47 @@
       outline: none;
     }
 
+    .slot-actions {
+      display: grid;
+      gap: 0.45rem;
+    }
+
+    .action-btn {
+      width: 100%;
+      min-height: var(--tap);
+      border-radius: 13px;
+      border: 0;
+      font-family: inherit;
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: transform 0.16s ease, opacity 0.16s ease;
+      padding: 0.85rem 1rem;
+    }
+
+    .action-btn:hover,
+    .action-btn:focus-visible {
+      transform: translateY(-1px);
+      outline: none;
+    }
+
+    .action-btn.primary {
+      background: var(--accent);
+      color: #1f1913;
+    }
+
+    .action-btn.secondary {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+
+    .action-btn:disabled {
+      opacity: 0.42;
+      cursor: not-allowed;
+      transform: none;
+    }
+
     .modal-backdrop {
       position: fixed;
       inset: 0;
@@ -540,54 +461,6 @@
       gap: 0.5rem;
     }
 
-    .empty-state {
-      color: var(--muted);
-      font-size: 0.9rem;
-      line-height: 1.5;
-      margin-bottom: 0.8rem;
-    }
-
-    .slot-actions {
-      display: grid;
-      gap: 0.45rem;
-    }
-
-    .action-btn {
-      width: 100%;
-      min-height: var(--tap);
-      border-radius: 13px;
-      border: 0;
-      font-family: inherit;
-      font-weight: 700;
-      font-size: 0.9rem;
-      cursor: pointer;
-      transition: transform 0.16s ease, opacity 0.16s ease;
-      padding: 0.85rem 1rem;
-    }
-
-    .action-btn:hover,
-    .action-btn:focus-visible {
-      transform: translateY(-1px);
-      outline: none;
-    }
-
-    .action-btn.primary {
-      background: var(--accent);
-      color: #1f1913;
-    }
-
-    .action-btn.secondary {
-      background: transparent;
-      border: 1px solid var(--border);
-      color: var(--text);
-    }
-
-    .action-btn:disabled {
-      opacity: 0.42;
-      cursor: not-allowed;
-      transform: none;
-    }
-
     @media (max-width: 420px) {
       main {
         padding-left: 0.75rem;
@@ -595,38 +468,7 @@
       }
 
       h1 {
-        font-size: 1.72rem;
-      }
-
-      .subtitle {
-        font-size: 0.88rem;
-      }
-
-      .calendar-top h2 {
-        font-size: 0.94rem;
-      }
-
-      .icon-btn {
-        width: 44px;
-        height: 44px;
-      }
-
-      .calendar-grid {
-        gap: 0.28rem;
-      }
-
-      .day-cell {
-        min-height: 54px;
-        padding: 0.3rem 0.14rem;
-        border-radius: 12px;
-      }
-
-      .day-number {
-        font-size: 0.84rem;
-      }
-
-      .day-meta {
-        font-size: 0.54rem;
+        font-size: 1.52rem;
       }
 
       .slot-head {
@@ -646,11 +488,7 @@
       }
 
       h1 {
-        font-size: 3rem;
-      }
-
-      .subtitle {
-        font-size: 1rem;
+        font-size: 2.55rem;
       }
 
       main {
@@ -658,31 +496,13 @@
       }
 
       .intro-card,
-      .calendar-card,
+      .turn-card,
       .slot-card {
         padding: 1.2rem;
       }
 
-      .calendar-top h2 {
-        font-size: 1.12rem;
-      }
-
-      .weekday {
-        font-size: 0.72rem;
-      }
-
-      .day-cell {
-        min-height: 82px;
-        padding: 0.45rem 0.3rem;
-        border-radius: 14px;
-      }
-
-      .day-number {
-        font-size: 0.98rem;
-      }
-
-      .day-meta {
-        font-size: 0.68rem;
+      .turn-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
       }
 
       .slot-actions {
@@ -696,57 +516,37 @@
     <div class="overlay"></div>
     <div class="gradient"></div>
     <div class="hero-content">
-      <h1>Sala de Oração</h1>
-      <p class="subtitle">Escolhe um dia disponível entre 30 de março e 8 de maio e seleciona um horário, exceto quartas-feiras de tarde.</p>
-      <div class="month-badge" id="monthBadge">Abril 2026</div>
+      <h1>Líderes relógio de oração | Líderes sala de oração</h1>
+      <div class="month-badge" id="monthBadge">40 dias em Sião • VDS’26</div>
     </div>
   </header>
 
   <main>
     <section class="intro-card">
-      <p>
-        Cada horário suporta até <strong>3 pessoas</strong>, visível para todos.<br><br>
-        Caso exista alguma alteração, por favor avisa com antecedência as demais pessoas inscritas no turno para garantir a presença de pelo menos 1 líder no turno.
-      </p>
-
       <div class="leader-links">
         <a class="leader-link-card" href="https://chat.whatsapp.com/K7pYWrObG2q5gLfQt5Z9dZ" target="_blank" rel="noopener noreferrer">
-          <span class="leader-link-label">Grupo dos líderes</span>
           <span class="leader-link-title">VDS'26 | Líderes Sala de Oração (presencial)</span>
-          <span class="leader-link-subtitle">Entrar no grupo dos líderes da sala presencial</span>
+          <span class="leader-link-subtitle">Entra diretamente no grupo de WhatsApp correspondente</span>
         </a>
 
         <a class="leader-link-card" href="https://chat.whatsapp.com/Kt4z4eYaliDKwJpKHFOd0R" target="_blank" rel="noopener noreferrer">
-          <span class="leader-link-label">Grupo dos líderes</span>
           <span class="leader-link-title">VDS'26 | Líderes Relógio de Oração (on-line)</span>
-          <span class="leader-link-subtitle">Entrar no grupo dos líderes do relógio de oração on-line</span>
+          <span class="leader-link-subtitle">Entra diretamente no grupo de WhatsApp correspondente</span>
         </a>
       </div>
     </section>
 
-    <section class="calendar-card">
-      <div class="calendar-top">
-        <h2 id="monthTitle">Abril 2026</h2>
-        <div class="month-controls">
-          <button class="icon-btn" id="prevMonth" aria-label="Mês anterior">‹</button>
-          <button class="icon-btn" id="nextMonth" aria-label="Mês seguinte">›</button>
-        </div>
-      </div>
+    <section class="turn-card">
+      <h2>Selecione um turno</h2>
+      <p>Escolha o dia da semana. A inscrição fica fixa no mesmo horário desse turno, semana após semana.</p>
 
-      <div class="calendar-grid" id="calendarGrid"></div>
-
-      <div class="legend">
-        <div class="legend-item"><span class="legend-dot accent"></span> dia selecionado</div>
-        <div class="legend-item"><span class="legend-dot blocked"></span> fora do período</div>
-      </div>
-        <div class="legend-item"><span class="legend-dot blocked"></span> quarta-feira bloqueada</div>
-      </div>
+      <div class="turn-grid" id="turnGrid"></div>
     </section>
 
     <section class="slot-card">
-      <div class="selected-date">
-        <h3 id="selectedDateTitle">Selecione um dia</h3>
-        <p id="selectedDateSubtitle">Depois de tocar num dia do calendário, os horários disponíveis aparecem aqui.</p>
+      <div class="selected-turn">
+        <h3 id="selectedDateTitle">Selecione um turno</h3>
+        <p id="selectedDateSubtitle">Depois de tocar num turno, os horários fixos dessa semana aparecem aqui.</p>
       </div>
 
       <div id="slotSections"></div>
@@ -767,17 +567,19 @@
 
   <script>
     const MAX_PEOPLE_PER_SLOT = 3;
-    const MIN_AVAILABLE_DATE = new Date(2026, 2, 30);
-    const MAX_AVAILABLE_DATE = new Date(2026, 4, 8);
+    const STORAGE_KEY = 'vds26-sala-oracao-weekly-registrations';
 
-    const monthNames = [
-      'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
-      'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+    const weeklyTurns = [
+      { key: 'segunda', label: 'Segunda-feira', note: 'manhã e tarde disponíveis' },
+      { key: 'terca', label: 'Terça-feira', note: 'manhã e tarde disponíveis' },
+      { key: 'quarta', label: 'Quarta-feira', note: 'só manhã disponível' },
+      { key: 'quinta', label: 'Quinta-feira', note: 'manhã e tarde disponíveis' },
+      { key: 'sexta', label: 'Sexta-feira', note: 'manhã e tarde disponíveis' },
+      { key: 'sabado', label: 'Sábado', note: 'manhã e tarde disponíveis' },
+      { key: 'domingo', label: 'Domingo', note: 'manhã e tarde disponíveis' }
     ];
 
-    const weekdayLabels = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
-
-    const dailySlots = [
+    const weeklySlots = [
       { period: 'Manhã', time: '06:00 às 07:00', key: '06:00-07:00' },
       { period: 'Manhã', time: '07:00 às 08:00', key: '07:00-08:00' },
       { period: 'Manhã', time: '08:00 às 09:00', key: '08:00-09:00' },
@@ -786,9 +588,19 @@
       { period: 'Tarde', time: '20:00 às 21:00', key: '20:00-21:00' }
     ];
 
-        const STORAGE_KEY = 'vds26-sala-oracao-registrations';
-
     let registrations = loadRegistrations();
+    let selectedTurnKey = null;
+    let pendingRegistrationKey = null;
+
+    const turnGrid = document.getElementById('turnGrid');
+    const selectedDateTitle = document.getElementById('selectedDateTitle');
+    const selectedDateSubtitle = document.getElementById('selectedDateSubtitle');
+    const slotSections = document.getElementById('slotSections');
+    const nameModalBackdrop = document.getElementById('nameModalBackdrop');
+    const nameInput = document.getElementById('nameInput');
+    const saveNameBtn = document.getElementById('saveNameBtn');
+    const cancelNameBtn = document.getElementById('cancelNameBtn');
+    const nameModalDescription = document.getElementById('nameModalDescription');
 
     function loadRegistrations() {
       try {
@@ -803,115 +615,29 @@
       localStorage.setItem(STORAGE_KEY, JSON.stringify(registrations));
     }
 
-    const calendarGrid = document.getElementById('calendarGrid');
-    const monthTitle = document.getElementById('monthTitle');
-    const monthBadge = document.getElementById('monthBadge');
-    const selectedDateTitle = document.getElementById('selectedDateTitle');
-    const selectedDateSubtitle = document.getElementById('selectedDateSubtitle');
-    const slotSections = document.getElementById('slotSections');
-    const prevMonthBtn = document.getElementById('prevMonth');
-    const nextMonthBtn = document.getElementById('nextMonth');
-    const nameModalBackdrop = document.getElementById('nameModalBackdrop');
-    const nameInput = document.getElementById('nameInput');
-    const saveNameBtn = document.getElementById('saveNameBtn');
-    const cancelNameBtn = document.getElementById('cancelNameBtn');
-    const nameModalDescription = document.getElementById('nameModalDescription');
-
-    let currentYear = 2026;
-    let currentMonth = 3;
-    let selectedDateKey = null;
-    let pendingRegistrationKey = null;
-    let pendingRegistrationLabel = '';
-
-    function formatDateKey(date) {
-      const year = date.getFullYear();
-      const month = String(date.getMonth() + 1).padStart(2, '0');
-      const day = String(date.getDate()).padStart(2, '0');
-      return `${year}-${month}-${day}`;
-    }
-
-    function getDisplayMonth(year, monthIndex) {
-      return `${monthNames[monthIndex]} ${year}`;
-    }
-
-    function getSelectedDateLabel(date) {
-      const weekday = ['domingo', 'segunda-feira', 'terça-feira', 'quarta-feira', 'quinta-feira', 'sexta-feira', 'sábado'][date.getDay()];
-      return `${weekday}, ${String(date.getDate()).padStart(2, '0')} de ${monthNames[date.getMonth()]} de ${date.getFullYear()}`;
-    }
-
-    function isWithinAvailableRange(date) {
-      return date >= MIN_AVAILABLE_DATE && date <= MAX_AVAILABLE_DATE;
-    }
-
-    function getCountForDate(dateKey) {
-      return dailySlots.reduce((sum, slot) => {
-        const registrationKey = `${dateKey}|${slot.key}`;
-        return sum + ((registrations[registrationKey] || []).length);
-      }, 0);
-    }
-
-    function renderWeekdays() {
-      weekdayLabels.forEach(label => {
-        const el = document.createElement('div');
-        el.className = 'weekday';
-        el.textContent = label;
-        calendarGrid.appendChild(el);
-      });
-    }
-
-    function renderCalendar() {
-      calendarGrid.innerHTML = '';
-      renderWeekdays();
-
-      monthTitle.textContent = getDisplayMonth(currentYear, currentMonth);
-      monthBadge.textContent = getDisplayMonth(currentYear, currentMonth);
-
-      const firstDay = new Date(currentYear, currentMonth, 1);
-      const lastDay = new Date(currentYear, currentMonth + 1, 0);
-      const leadingEmptyDays = firstDay.getDay();
-
-      for (let i = 0; i < leadingEmptyDays; i++) {
-        const empty = document.createElement('div');
-        empty.className = 'day-cell empty';
-        calendarGrid.appendChild(empty);
-      }
-
-      for (let day = 1; day <= lastDay.getDate(); day++) {
-        const date = new Date(currentYear, currentMonth, day);
-        const dateKey = formatDateKey(date);
-        const isOutOfRange = !isWithinAvailableRange(date);
-        const isBlocked = isOutOfRange;
-        const totalForDay = getCountForDate(dateKey);
-
-        const button = document.createElement('button');
-        button.type = 'button';
-        button.className = 'day-cell';
-        if (isBlocked) button.classList.add('blocked');
-        if (selectedDateKey === dateKey) button.classList.add('selected');
-
-        button.innerHTML = `
-          <div class="day-number">${day}</div>
-          <div class="day-meta">${isOutOfRange ? 'Indisp.' : totalForDay > 0 ? `${totalForDay} inscr.` : 'Livre'}</div>
+    function renderTurns() {
+      turnGrid.innerHTML = '';
+      weeklyTurns.forEach(turn => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'turn-button';
+        if (selectedTurnKey === turn.key) btn.classList.add('selected');
+        btn.innerHTML = `
+          <span class="turn-day">${turn.label}</span>
+          <span class="turn-note">${turn.note}</span>
         `;
-
-        if (!isBlocked) {
-          button.addEventListener('click', () => {
-            selectedDateKey = dateKey;
-            renderCalendar();
-            renderSlotsForDate(date);
-            document.querySelector('.slot-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
-          });
-        } else {
-          button.disabled = true;
-        }
-
-        calendarGrid.appendChild(button);
-      }
+        btn.addEventListener('click', () => {
+          selectedTurnKey = turn.key;
+          renderTurns();
+          renderSlotsForTurn(turn);
+          document.querySelector('.slot-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+        turnGrid.appendChild(btn);
+      });
     }
 
     function openNameModal(registrationKey, slotLabel) {
       pendingRegistrationKey = registrationKey;
-      pendingRegistrationLabel = slotLabel;
       nameModalDescription.textContent = `Digite o seu nome para entrar no horário ${slotLabel}.`;
       nameInput.value = '';
       nameModalBackdrop.classList.add('open');
@@ -921,7 +647,6 @@
 
     function closeNameModal() {
       pendingRegistrationKey = null;
-      pendingRegistrationLabel = '';
       nameModalBackdrop.classList.remove('open');
       nameModalBackdrop.setAttribute('aria-hidden', 'true');
     }
@@ -968,28 +693,26 @@
     }
 
     function refreshCurrentView() {
-      renderCalendar();
-      if (selectedDateKey) {
-        const [year, month, day] = selectedDateKey.split('-').map(Number);
-        renderSlotsForDate(new Date(year, month - 1, day));
+      renderTurns();
+      if (selectedTurnKey) {
+        const turn = weeklyTurns.find(item => item.key === selectedTurnKey);
+        renderSlotsForTurn(turn);
       } else {
         resetSlotsArea();
       }
     }
 
-    function buildSlotItem(dateKey, slot) {
-      const [year, month, day] = dateKey.split('-').map(Number);
-      const currentDate = new Date(year, month - 1, day);
-      const isWednesdayAfternoonSlot = currentDate.getDay() === 3 && slot.period === 'Tarde';
-      const registrationKey = `${dateKey}|${slot.key}`;
+    function buildSlotItem(turnKey, turnLabel, slot) {
+      const isWednesdayAfternoonSlot = turnKey === 'quarta' && slot.period === 'Tarde';
+      const registrationKey = `${turnKey}|${slot.key}`;
       const names = registrations[registrationKey] || [];
       const isFull = names.length >= MAX_PEOPLE_PER_SLOT;
-      const isBlockedForThisDate = isWednesdayAfternoonSlot;
+      const isBlockedForThisTurn = isWednesdayAfternoonSlot;
       const available = MAX_PEOPLE_PER_SLOT - names.length;
 
       const wrapper = document.createElement('div');
       wrapper.className = 'slot-item';
-      if (isFull || isBlockedForThisDate) wrapper.classList.add('top-disabled');
+      if (isFull || isBlockedForThisTurn) wrapper.classList.add('top-disabled');
 
       const namesList = names.length
         ? `<ul class="assigned-list">${names.map(name => `
@@ -1000,7 +723,7 @@
               </div>
             </li>
           `).join('')}</ul>`
-        : `<p class="empty-state">${isBlockedForThisDate ? 'Este horário não fica disponível nas quartas-feiras de tarde.' : 'Ainda não há ninguém inscrito neste horário.'}</p>`;
+        : `<p class="empty-state">${isBlockedForThisTurn ? 'Este horário não fica disponível nas quartas-feiras de tarde.' : 'Ainda não há ninguém inscrito neste horário.'}</p>`;
 
       wrapper.innerHTML = `
         <div class="slot-head">
@@ -1008,43 +731,40 @@
             <div class="slot-time">${slot.time}</div>
             <div class="slot-capacity">${names.length}/${MAX_PEOPLE_PER_SLOT} pessoas inscritas</div>
           </div>
-          <div class="slot-status ${isBlockedForThisDate || isFull ? 'full' : 'available'}">
-            ${isBlockedForThisDate ? 'Indisponível' : isFull ? 'Completo' : `${available} vaga${available > 1 ? 's' : ''}`}
+          <div class="slot-status ${isBlockedForThisTurn || isFull ? 'full' : 'available'}">
+            ${isBlockedForThisTurn ? 'Indisponível' : isFull ? 'Completo' : `${available} vaga${available > 1 ? 's' : ''}`}
           </div>
         </div>
         ${namesList}
         <div class="slot-actions">
-          <button class="action-btn primary" ${isFull || isBlockedForThisDate ? 'disabled' : ''} type="button">
-            ${isBlockedForThisDate ? 'Indisponível na quarta à tarde' : isFull ? 'Sem vagas' : 'Inscrever neste horário'}
+          <button class="action-btn primary" ${isFull || isBlockedForThisTurn ? 'disabled' : ''} type="button">
+            ${isBlockedForThisTurn ? 'Indisponível na quarta à tarde' : 'Inscrever neste horário'}
           </button>
-          
         </div>
       `;
 
       const primaryBtn = wrapper.querySelector('.action-btn.primary');
       primaryBtn.addEventListener('click', () => {
-        if (!isFull && !isBlockedForThisDate) {
-          openNameModal(registrationKey, `${slot.time} em ${dateKey}`);
+        if (!isFull && !isBlockedForThisTurn) {
+          openNameModal(registrationKey, `${slot.time} • ${turnLabel}`);
         }
       });
 
       wrapper.querySelectorAll('.delete-name-btn').forEach(deleteBtn => {
         deleteBtn.addEventListener('click', () => {
-          const nameToRemove = deleteBtn.dataset.name;
-          removeRegistration(registrationKey, nameToRemove);
+          removeRegistration(registrationKey, deleteBtn.dataset.name);
         });
       });
 
       return wrapper;
     }
 
-    function renderSlotsForDate(date) {
-      const dateKey = formatDateKey(date);
-      selectedDateTitle.textContent = getSelectedDateLabel(date);
-      selectedDateSubtitle.textContent = 'Escolha um dos horários abaixo. Cada horário aceita até 3 pessoas. Nas quartas-feiras, só os horários da manhã ficam disponíveis.';
+    function renderSlotsForTurn(turn) {
+      selectedDateTitle.textContent = `Selecione um turno • ${turn.label}`;
+      selectedDateSubtitle.textContent = 'A inscrição fica fixa nesse mesmo horário todas as semanas. Cada horário aceita até 3 pessoas.';
       slotSections.innerHTML = '';
 
-      const grouped = dailySlots.reduce((acc, slot) => {
+      const grouped = weeklySlots.reduce((acc, slot) => {
         if (!acc[slot.period]) acc[slot.period] = [];
         acc[slot.period].push(slot);
         return acc;
@@ -1060,7 +780,7 @@
         list.className = 'slot-list';
 
         slots.forEach(slot => {
-          list.appendChild(buildSlotItem(dateKey, slot));
+          list.appendChild(buildSlotItem(turn.key, turn.label, slot));
         });
 
         slotSections.appendChild(list);
@@ -1068,53 +788,24 @@
     }
 
     function resetSlotsArea() {
-      selectedDateTitle.textContent = 'Selecione um dia';
-      selectedDateSubtitle.textContent = 'Depois de tocar num dia do calendário, os horários disponíveis aparecem aqui.';
+      selectedDateTitle.textContent = 'Selecione um turno';
+      selectedDateSubtitle.textContent = 'Escolha primeiro o dia da semana para ver os horários fixos desse turno.';
       slotSections.innerHTML = '';
     }
 
     saveNameBtn.addEventListener('click', saveRegistration);
-
     cancelNameBtn.addEventListener('click', closeNameModal);
 
     nameModalBackdrop.addEventListener('click', (event) => {
-      if (event.target === nameModalBackdrop) {
-        closeNameModal();
-      }
+      if (event.target === nameModalBackdrop) closeNameModal();
     });
 
     nameInput.addEventListener('keydown', (event) => {
-      if (event.key === 'Enter') {
-        saveRegistration();
-      }
-      if (event.key === 'Escape') {
-        closeNameModal();
-      }
+      if (event.key === 'Enter') saveRegistration();
+      if (event.key === 'Escape') closeNameModal();
     });
 
-    prevMonthBtn.addEventListener('click', () => {
-      currentMonth -= 1;
-      if (currentMonth < 0) {
-        currentMonth = 11;
-        currentYear -= 1;
-      }
-      selectedDateKey = null;
-      renderCalendar();
-      resetSlotsArea();
-    });
-
-    nextMonthBtn.addEventListener('click', () => {
-      currentMonth += 1;
-      if (currentMonth > 11) {
-        currentMonth = 0;
-        currentYear += 1;
-      }
-      selectedDateKey = null;
-      renderCalendar();
-      resetSlotsArea();
-    });
-
-    renderCalendar();
+    renderTurns();
     resetSlotsArea();
   </script>
 </body>
