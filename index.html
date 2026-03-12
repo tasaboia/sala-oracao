@@ -537,16 +537,16 @@
     </section>
 
     <section class="turn-card">
-      <h2>Selecione um turno</h2>
-      <p>Escolha o dia da semana. A inscrição fica fixa no mesmo horário desse turno, semana após semana.</p>
+      <h2>Escolhe o dia da semana</h2>
+      <p>A inscrição fica fixa no mesmo horário desse turno, semana após semana.</p>
 
       <div class="turn-grid" id="turnGrid"></div>
     </section>
 
-    <section class="slot-card">
+    <section class="slot-card" id="slotCard" style="display: none;">
       <div class="selected-turn">
-        <h3 id="selectedDateTitle">Selecione um turno</h3>
-        <p id="selectedDateSubtitle">Depois de tocar num turno, os horários fixos dessa semana aparecem aqui.</p>
+        <h3 id="selectedDateTitle">Escolhe o dia da semana</h3>
+        <p id="selectedDateSubtitle">A inscrição fica fixa nesse mesmo horário todas as semanas. Cada horário aceita até 3 pessoas.</p>
       </div>
 
       <div id="slotSections"></div>
@@ -575,8 +575,8 @@
       { key: 'quarta', label: 'Quarta-feira', note: 'só manhã disponível' },
       { key: 'quinta', label: 'Quinta-feira', note: 'manhã e tarde disponíveis' },
       { key: 'sexta', label: 'Sexta-feira', note: 'manhã e tarde disponíveis' },
-      { key: 'sabado', label: 'Sábado', note: 'manhã e tarde disponíveis' },
-      { key: 'domingo', label: 'Domingo', note: 'manhã e tarde disponíveis' }
+      // { key: 'sabado', label: 'Sábado', note: 'manhã e tarde disponíveis' },
+      // { key: 'domingo', label: 'Domingo', note: 'manhã e tarde disponíveis' }
     ];
 
     const weeklySlots = [
@@ -601,6 +601,7 @@
     const saveNameBtn = document.getElementById('saveNameBtn');
     const cancelNameBtn = document.getElementById('cancelNameBtn');
     const nameModalDescription = document.getElementById('nameModalDescription');
+    const slotCard = document.getElementById('slotCard');
 
     function loadRegistrations() {
       try {
@@ -630,7 +631,8 @@
           selectedTurnKey = turn.key;
           renderTurns();
           renderSlotsForTurn(turn);
-          document.querySelector('.slot-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
+          slotCard.style.display = 'block';
+          slotCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
         });
         turnGrid.appendChild(btn);
       });
@@ -760,8 +762,8 @@
     }
 
     function renderSlotsForTurn(turn) {
-      selectedDateTitle.textContent = `Selecione um turno • ${turn.label}`;
-      selectedDateSubtitle.textContent = 'A inscrição fica fixa nesse mesmo horário todas as semanas. Cada horário aceita até 3 pessoas.';
+      selectedDateTitle.textContent = ` ${turn.label}`;
+      selectedDateSubtitle.textContent = 'Cada horário aceita até 3 pessoas.';
       slotSections.innerHTML = '';
 
       const grouped = weeklySlots.reduce((acc, slot) => {
@@ -788,8 +790,9 @@
     }
 
     function resetSlotsArea() {
-      selectedDateTitle.textContent = 'Selecione um turno';
-      selectedDateSubtitle.textContent = 'Escolha primeiro o dia da semana para ver os horários fixos desse turno.';
+      slotCard.style.display = 'none';
+      selectedDateTitle.textContent = 'Seleciona um turno';
+      selectedDateSubtitle.textContent = 'A inscrição fica fixa nesse mesmo horário todas as semanas. Cada horário aceita até 3 pessoas.';
       slotSections.innerHTML = '';
     }
 
